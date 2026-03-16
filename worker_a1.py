@@ -6,7 +6,7 @@ HOST = "127.0.0.1"
 PORT = 8000
 
 # UUID do servidor que o Worker A1 quer verificar
-SERVER_UUID = "123e4567-e89b-12d3-a456-426614174000"
+SERVER_UUID = "SERVIDOR_A_001"
 
 # Payload do heartbeat pedido no enunciado
 payload_heartbeat = {
