@@ -6,7 +6,7 @@ HOST = "127.0.0.1"
 PORT = 8000
 
 # UUID fixo do servidor, como pedido no payload
-SERVER_UUID = "123e4567-e89b-12d3-a456-426614174000"
+SERVER_UUID = "SERVIDOR_A_001"
 
 # Cria o socket TCP/IP
 servidor = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
