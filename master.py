@@ -18,7 +18,6 @@ import json
 import math
 import queue
 import socket
-import ssl
 import threading
 import time
 import uuid
@@ -65,8 +64,8 @@ DEFAULT_BACKLOG = 30
 # CONSTANTES DO PROTOCOLO - SPRINT 04
 # ============================================================
 
-METRICS_HOST = "nuted-ia.dev"
-METRICS_PORT = 443
+METRICS_HOST = "10.62.206.206"
+METRICS_PORT = 5000
 METRICS_INTERVAL = 10
 
 
@@ -757,7 +756,7 @@ class MasterNode:
             log(self.master_id, f"Falha ao notificar devolucao para {state.borrowed_from_address}: {error}")
 
     # --------------------------------------------------------
-    # SPRINT 04 - Supervisor de metricas via TLS
+    # SPRINT 04 - Supervisor de metricas via TCP
     # --------------------------------------------------------
 
     def metrics_supervisor_loop(self) -> None:
@@ -765,10 +764,8 @@ class MasterNode:
             try:
                 payload = self._build_metrics_payload()
                 message = (json.dumps(payload, ensure_ascii=False) + "\n").encode("utf-8")
-                context = ssl.create_default_context()
-                with socket.create_connection((METRICS_HOST, METRICS_PORT), timeout=SOCKET_TIMEOUT) as raw_sock:
-                    with context.wrap_socket(raw_sock, server_hostname=METRICS_HOST) as tls_sock:
-                        tls_sock.sendall(message)
+                with socket.create_connection((METRICS_HOST, METRICS_PORT), timeout=SOCKET_TIMEOUT) as sock:
+                    sock.sendall(message)
                 log(self.master_id, f"Metricas enviadas para {METRICS_HOST}:{METRICS_PORT}")
             except Exception as error:
                 log(self.master_id, f"Falha ao enviar metricas: {error}")
